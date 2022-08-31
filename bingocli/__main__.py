@@ -1,4 +1,7 @@
 import argparse
+from logging import NullHandler
+
+from bingocli.filelogging import FileLoggerBuilder
 
 from .provider import services
 from .consolelogging import ConsoleLoggerBuilder
@@ -16,8 +19,9 @@ def main():
     # how does the factory make this better?
     # services need to be registered before use
     services.register_builder('console', ConsoleLoggerBuilder())
+    services.register_builder('null', FileLoggerBuilder())
 
-    logger = services.get('console')
+    logger = services.get('null', file_path='bingo.log')
     logger.log('Hello World!')
     
 
